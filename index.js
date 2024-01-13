@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 /*endpoint body antes de aquellos que usen params, de preferencia after de raiz*/
+/* El uso de body debe usar return res.json({}) */
 app.get('/body', (req, res) => {
 
     const nombre = req.body.nombre;
@@ -29,7 +30,7 @@ app.get('/body', (req, res) => {
 
     const edad = req.body.edad;
 
-    res.json({
+    return res.json({
         
         nombre: nombre,
         
@@ -134,13 +135,20 @@ app.post('/archivo/crear', (req, res) => {
 
     fs.writeFile(filename, texto, (err) => {
 
-        if(err) 
+        if(err) {
             
-            throw err;
+            console.log(err);
+
+            return res.json({
+                result: false,
+                message: 'Archivo no se puede crear. Revise permisos de escritura',
+            });
+
+        }
 
         console.log('Archivo creado con éxito');
 
-        res.send({
+        return res.json({
             result: true,
             message: 'Archivo creado con éxito',
             data: texto
@@ -157,19 +165,30 @@ app.get('/archivo/leer', (req, res) => {
 
     const filename = req.body.filename
 
-    fs.readFile(filename, 'utf-8', (err, data) => {
+    const contenido = fs.readFile(filename, 'utf-8', (err, data) => {
 
-        if(err) throw err;
+        if(err) {
+            
+            console.log(err);
+
+            return res.json({
+                result: false,
+                message: 'Archivo no existe o no se puede leer',
+            });
+
+        }
 
         console.log(`Contenido del archivo ${data}`);
 
-        res.send({
+        return res.json({
             result: true,
             message: 'Archivo existe',
             data: data
         });
 
     });
+
+    console.log(`Contenido en el file es ${contenido}`);
 
 });
 
@@ -184,9 +203,18 @@ app.put('/archivo/modificar', (req, res) => {
 
     fs.appendFile(filename, addTexto, (err) => {
 
-        if(err) throw err;
+        if(err) {
+            
+            console.log(err);
 
-        res.send({
+            return res.json({
+                result: false,
+                message: 'Archivo no existe o no se puede leer ni modificar. Revise permisos de escritura',
+            });
+
+        }
+
+        return res.json({
             result: true,
             message: 'Archivo actualizado',
             data: addTexto
@@ -205,9 +233,18 @@ app.delete('/archivo/eliminar', (req, res) => {
 
     fs.unlink(filename, (err) => {
 
-        if(err) throw err;
+        if(err) {
+            
+            console.log(err);
 
-        res.send({
+            return res.json({
+                result: false,
+                message: 'Archivo no existe o no se puede eliminar. Revise permisos de escritura',
+            });
+
+        }
+
+        return res.json({
             result: true,
             message: 'Archivo eliminado',
         });

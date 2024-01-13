@@ -1,5 +1,0 @@
-Este es un ejemplo para crear un archivo. 
-Se agregan algunas lineas: 
-linea 1
-linea 2
-linea 3
