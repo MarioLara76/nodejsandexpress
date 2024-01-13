@@ -124,11 +124,15 @@ app.delete('/usuarios/:id', (req, res) => {
 
 /* endpoints para manejo de archivos */
 /* endpoint para crear un archivo */
-app.get('/archivo/crear', (req, res) => {
+app.post('/archivo/crear', (req, res) => {
 
     const fs = require('fs'); /* importar libreria fs para leer y escribir archivos */
 
-    fs.writeFile('archivo.txt', 'Hola Mundo', (err) => {
+    const filename = req.body.filename;
+
+    const texto = req.body.texto;
+
+    fs.writeFile(filename, texto, (err) => {
 
         if(err) 
             
@@ -139,6 +143,7 @@ app.get('/archivo/crear', (req, res) => {
         res.send({
             result: true,
             message: 'Archivo creado con éxito',
+            data: texto
         });
 
     });
@@ -150,9 +155,9 @@ app.get('/archivo/leer', (req, res) => {
 
     const fs = require('fs'); /* importar libreria fs para leer y escribir archivos */
 
-    const filename = req.params.filename
+    const filename = req.body.filename
 
-    fs.readFile('archivo.txt', 'utf-8', (err, data) => {
+    fs.readFile(filename, 'utf-8', (err, data) => {
 
         if(err) throw err;
 
@@ -169,15 +174,15 @@ app.get('/archivo/leer', (req, res) => {
 });
 
 /* endpoint para escribir un archivo */
-app.get('/archivo/modificar', (req, res) => {
+app.put('/archivo/modificar', (req, res) => {
 
     const fs = require('fs'); /* importar libreria fs para leer y escribir archivos */
 
-    const filename = req.params.filename
+    const filename = req.body.filename
 
-    const addTexto = "\nAgregar contenido al archivo otra vez";
+    const addTexto = req.body.addTexto;
 
-    fs.appendFile('archivo.txt', addTexto, (err) => {
+    fs.appendFile(filename, addTexto, (err) => {
 
         if(err) throw err;
 
@@ -192,13 +197,13 @@ app.get('/archivo/modificar', (req, res) => {
 });
 
 /* endpoint para eliminar un archivo */
-app.get('/archivo/eliminar', (req, res) => {
+app.delete('/archivo/eliminar', (req, res) => {
     
     const fs = require('fs'); /* importar libreria fs para leer y escribir archivos */
 
-    const filename = req.params.filename
+    const filename = req.body.filename
 
-    fs.unlink('archivo.txt', (err) => {
+    fs.unlink(filename, (err) => {
 
         if(err) throw err;
 
