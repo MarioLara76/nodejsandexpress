@@ -61,7 +61,68 @@ app.get('/query', (req, res) => {
     });
     
 });
+/* endpoints para CRUD */
+/* endpoint GET para obtener todos los usuarios */
+app.get('/usuarios', (req, res) => {
 
+    res.json({
+        success: true,
+        message: 'Lista de usuarios'
+    });
+
+});
+
+/* endpoint GET para obtener un usuario */
+app.get('/usuarios/:id', (req, res) => {
+    
+    const id = req.params.id;
+
+    res.json({
+        success: true,
+        message: `Usuario with id ${id} obtenido`,
+        id: id
+    });
+
+});
+
+/* endpoint POST para crear usuario*/
+app.post('/usuarios', (req, res) => {
+
+    const action = req.body.action;
+
+    res.json({
+        success: true,
+        message: 'Usuario creado',
+        action: action
+    });
+
+});
+
+/* endpoint PUT para actualizar usuario*/
+app.put('/usuarios/:id', (req, res) => {
+
+    const action = req.body.action;
+
+    res.json({
+        success: true,
+        message: 'Usuario actualizado'
+    });
+
+});
+
+/* endpoint DELETE para eliminar usuario*/
+app.delete('/usuarios/:id', (req, res) => {
+ 
+    const action = req.body.action;
+
+    res.json({
+        success: true,
+        message: 'Usuario eliminado'
+    });
+
+});
+
+/* endpoints para manejo de archivos */
 /* endpoint para crear un archivo */
 app.get('/archivo/crear', (req, res) => {
 
