@@ -6,9 +6,24 @@ const hostname = '127.0.0.1';
 
 const port = 3000;
 
+/*endpoints*/
 app.get('/', (req, res) => {
 
   res.send('Hola Mundo, soy Mario U Camper. Agregando variable hostname para que se vea en el navegador.');
+
+});
+
+app.get('/body', (req, res) => {
+
+    res.json({
+        
+        nombre: "Mario Lara", //req.body.nombre,
+        
+        apellidomaterno: "Perez", // req.body.apellidomaterno,
+        
+        edad: 47,//req.body.edad
+
+    });
 
 });
 
@@ -62,7 +77,7 @@ app.get('/query', (req, res) => {
     
     res.json({
         ok: true,
-        msg: 'Petición GET realizada con éxito: ' + nombre + ' ' + apellidomaterno + ' with edad: ' + edad + ' years old',
+        msg: 'Petición GET realizada con éxito: ' + nombre + ' ' + apellidomaterno + ' with edad: ' + edad + ' años',
         data: {
             nombre: nombre,
             apellidomaterno: apellidomaterno,
@@ -72,6 +87,7 @@ app.get('/query', (req, res) => {
     
 });
 
+/* Start App*/
 app.listen(port, () => {    
 
   console.log(`App activa en http://${hostname}:${port}`);
