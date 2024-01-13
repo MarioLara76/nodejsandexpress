@@ -158,14 +158,14 @@ app.post('/archivo/crear', (req, res) => {
 
 });
 
-/* endpoint para leer un archivo */
+/* endpoint para leer o recuperar contenido de un archivo */
 app.get('/archivo/leer', (req, res) => {
 
     const fs = require('fs'); /* importar libreria fs para leer y escribir archivos */
 
     const filename = req.body.filename
 
-    const contenido = fs.readFile(filename, 'utf-8', (err, data) => {
+    fs.readFile(filename, 'utf-8', (err, data) => {
 
         if(err) {
             
@@ -187,8 +187,6 @@ app.get('/archivo/leer', (req, res) => {
         });
 
     });
-
-    console.log(`Contenido en el file es ${contenido}`);
 
 });
 
